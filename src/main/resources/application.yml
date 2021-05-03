@@ -12,7 +12,9 @@ spring:
  jpa:
    open-in-view: false
    hibernate:
-     ddl-auto: none   
+     ddl-auto: create 
    database: mysql
    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
    show-sql: true
+
+   
