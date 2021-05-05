@@ -14,10 +14,11 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.salda.saldahomework.entity.MoveRsvEntity;
 
+//JPA SPECIFICATION 적용하여 쿼리 조건 처리
 public class MoveRsvSpecs {
 
 	public enum SearchKey {
-		// enum 적용 스터디하기
+		// enum 적용 공부하기
 		DONG("dong"), HPNUMBER("hpNumber"), MOVEDTTM("moveDttm");
 
 		private final String value;
@@ -32,14 +33,15 @@ public class MoveRsvSpecs {
 
 	}
 
-	public static Specification<MoveRsvEntity> searchWith(Map<SearchKey, String> searchKeyword) {
+	public static Specification<MoveRsvEntity> searchWith(Map<SearchKey, Object> searchKeyword) {
+		// Specification의 toPredicate() 람다식으로 구현 // 기본식 공부하기
 		return (Specification<MoveRsvEntity>) ((root, query, builder) -> {
 			List<Predicate> predicate = getPredicateWithKeyword(searchKeyword, root, builder);
 			return builder.and(predicate.toArray(new Predicate[0]));
 		});
 	}
 
-	private static List<Predicate> getPredicateWithKeyword(Map<SearchKey, String> searchKeyword,
+	private static List<Predicate> getPredicateWithKeyword(Map<SearchKey, Object> searchKeyword,
 			Root<MoveRsvEntity> root, CriteriaBuilder builder) {
 		List<Predicate> predicate = new ArrayList<>();
 		for (SearchKey key : searchKeyword.keySet()) {
@@ -49,15 +51,13 @@ public class MoveRsvSpecs {
 				predicate.add(builder.equal(root.get(key.value), searchKeyword.get(key)));
 				break;
 			case MOVEDTTM:
-				predicate.add(builder.equal(root.get(key.value), LocalDate.parse(searchKeyword.get(key))));
+				if (searchKeyword.get(key) != null) {
+					predicate.add(builder.equal(root.get(key.value), (searchKeyword.get(key))));
+				}
 				break;
 			}
 		}
 		return predicate;
 	}
 
-	public static Specification<MoveRsvEntity> withDong(String dong) {
-		// Specification의 toPredicate() 람다식으로 구현 // 기본식도 확인하기
-		return (Specification<MoveRsvEntity>) ((root, query, builder) -> builder.equal(root.get("dong"), dong));
-	}
 }

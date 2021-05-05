@@ -30,12 +30,12 @@ public class MoveRsvEntity {
 
 	private String hpNumber;
 
-	private LocalDateTime rsvDttm;
+	private String rsvDttm;
 
 	private String moveDttm;
 
 	@Builder
-	public MoveRsvEntity(int rsvId, String dong, String ho, String rsvYn, String hpNumber, LocalDateTime rsvDttm,
+	public MoveRsvEntity(int rsvId, String dong, String ho, String rsvYn, String hpNumber, String rsvDttm,
 			String moveDttm) {
 		this.rsvId = rsvId;
 		this.dong = dong;
