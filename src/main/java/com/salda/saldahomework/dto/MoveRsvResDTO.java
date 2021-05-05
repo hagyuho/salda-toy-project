@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class MoveRsvResDTO {
-	private String rsvId;
+	private int rsvId;
 
 	private String dong;
 
@@ -25,6 +25,6 @@ public class MoveRsvResDTO {
 
 	private LocalDateTime rsvDttm;
 
-	private LocalDateTime moveDttm;
+	private String moveDttm;
 
 }

@@ -20,7 +20,7 @@ public class MoveRsvEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String rsvId;
+	private int rsvId;
 
 	private String dong;
 
@@ -32,11 +32,11 @@ public class MoveRsvEntity {
 
 	private LocalDateTime rsvDttm;
 
-	private LocalDateTime moveDttm;
+	private String moveDttm;
 
 	@Builder
-	public MoveRsvEntity(String rsvId, String dong, String ho, String rsvYn, String hpNumber, LocalDateTime rsvDttm,
-			LocalDateTime moveDttm) {
+	public MoveRsvEntity(int rsvId, String dong, String ho, String rsvYn, String hpNumber, LocalDateTime rsvDttm,
+			String moveDttm) {
 		this.rsvId = rsvId;
 		this.dong = dong;
 		this.ho = ho;
