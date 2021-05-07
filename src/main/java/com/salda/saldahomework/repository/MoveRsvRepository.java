@@ -11,7 +11,7 @@ import com.salda.saldahomework.entity.MoveRsvEntity;
 
 public interface MoveRsvRepository extends JpaRepository<MoveRsvEntity, Integer>, JpaSpecificationExecutor<MoveRsvEntity>{
 	
-	public List<MoveRsvEntity> findAllByRsvYnAndMoveDttmGreaterThanEqual(String RsvYn, String moveDttm);
+	public List<MoveRsvEntity> findAllByRsvYnAndMoveDttmGreaterThanEqual(String RsvYn, LocalDateTime moveDttm);
 
 	
 }

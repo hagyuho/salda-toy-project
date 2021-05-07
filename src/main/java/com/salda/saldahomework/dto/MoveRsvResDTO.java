@@ -23,8 +23,8 @@ public class MoveRsvResDTO {
 
 	private String hpNumber;
 
-	private String rsvDttm;
+	private LocalDateTime rsvDttm;
 
-	private String moveDttm;
+	private LocalDateTime moveDttm;
 
 }

@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,14 +31,14 @@ public class MoveRsvEntity {
 	private String rsvYn;
 
 	private String hpNumber;
-
-	private String rsvDttm;
-
-	private String moveDttm;
+	
+	private LocalDateTime rsvDttm;
+	
+	private LocalDateTime moveDttm;
 
 	@Builder
-	public MoveRsvEntity(int rsvId, String dong, String ho, String rsvYn, String hpNumber, String rsvDttm,
-			String moveDttm) {
+	public MoveRsvEntity(int rsvId, String dong, String ho, String rsvYn, String hpNumber, LocalDateTime rsvDttm,
+			LocalDateTime moveDttm) {
 		this.rsvId = rsvId;
 		this.dong = dong;
 		this.ho = ho;

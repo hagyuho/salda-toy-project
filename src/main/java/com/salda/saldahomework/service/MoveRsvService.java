@@ -67,8 +67,8 @@ public class MoveRsvService {
 
 		if (rsvCheck) {
 			MoveRsvEntity entity = new MoveRsvEntity().builder().dong(moveRsvReqDTO.getDong()).ho(moveRsvReqDTO.getHo())
-					.hpNumber(moveRsvReqDTO.getHo()).moveDttm(moveRsvReqDTO.getMoveDttm())
-					.rsvDttm(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)).rsvYn("Y").build();
+					.hpNumber(moveRsvReqDTO.getHpNumber()).moveDttm(moveRsvReqDTO.getMoveDttm()).rsvDttm(LocalDateTime.now())
+					.rsvYn("Y").build();
 
 			moveRsvRepository.save(entity);
 		}
@@ -82,29 +82,22 @@ public class MoveRsvService {
 	public boolean rsvCheck(MoveRsvReqDTO moveRsvReqDTO) throws Exception {
 		boolean rsvCheck = true;
 
+		System.out.println("Service:" + moveRsvReqDTO.getMoveDttm());
+
 		// 1. 이사날짜 60일 이내
-		DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
-		LocalDate moveDttm = LocalDate.parse(moveRsvReqDTO.getMoveDttm(), formatter);
-		if (moveDttm.compareTo(LocalDate.now()) > 60) {
+		if (moveRsvReqDTO.getMoveDttm().minusDays(60).compareTo(LocalDateTime.now()) > 0) {
 			rsvCheck = false;
 			throw new Exception("오늘로부터 60일 이내까지만 예약가능합니다.");
 		}
 
 		// 2. 동일 동 && 동일 날짜 && 예약여부 Y
-		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		
 		List<MoveRsvResDTO> checkDTOList = toDTOList(
-				moveRsvRepository.findAllByRsvYnAndMoveDttmGreaterThanEqual("Y", today));
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-		Date parsedDate = dateFormat.parse(moveRsvReqDTO.getMoveDttm());
-		Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-		
+				moveRsvRepository.findAllByRsvYnAndMoveDttmGreaterThanEqual("Y", LocalDateTime.now()));
 		List<MoveRsvResDTO> checkDTOListForDong = checkDTOList.stream()
 				.filter(p -> p.getDong().equals(moveRsvReqDTO.getDong()))
-				.filter(p -> p.getMoveDttm().equals(timestamp))
+				.filter(p -> p.getMoveDttm().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+						.equals(moveRsvReqDTO.getMoveDttm().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
 				.collect(Collectors.toList());
-		
 
 		if (checkDTOListForDong.size() > 0) {
 			rsvCheck = false;
