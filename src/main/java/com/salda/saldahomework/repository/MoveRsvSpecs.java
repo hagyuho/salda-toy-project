@@ -1,7 +1,5 @@
 package com.salda.saldahomework.repository;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.salda.saldahomework.entity.MoveRsvEntity;
+import com.salda.saldahomework.entity.MoveReservationEntity;
 
 //JPA SPECIFICATION 적용하여 쿼리 조건 처리
 public class MoveRsvSpecs {
@@ -33,16 +31,16 @@ public class MoveRsvSpecs {
 
 	}
 
-	public static Specification<MoveRsvEntity> searchWith(Map<SearchKey, Object> searchKeyword) {
+	public static Specification<MoveReservationEntity> searchWith(Map<SearchKey, Object> searchKeyword) {
 		// Specification의 toPredicate() 람다식으로 구현 // 기본식 공부하기
-		return (Specification<MoveRsvEntity>) ((root, query, builder) -> {
+		return (Specification<MoveReservationEntity>) ((root, query, builder) -> {
 			List<Predicate> predicate = getPredicateWithKeyword(searchKeyword, root, builder);
 			return builder.and(predicate.toArray(new Predicate[0]));
 		});
 	}
 
 	private static List<Predicate> getPredicateWithKeyword(Map<SearchKey, Object> searchKeyword,
-			Root<MoveRsvEntity> root, CriteriaBuilder builder) {
+			Root<MoveReservationEntity> root, CriteriaBuilder builder) {
 		List<Predicate> predicate = new ArrayList<>();
 		for (SearchKey key : searchKeyword.keySet()) {
 			switch (key) {
